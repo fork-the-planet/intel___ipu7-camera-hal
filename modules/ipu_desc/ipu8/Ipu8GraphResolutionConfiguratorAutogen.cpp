@@ -39,10 +39,11 @@ uint32_t GraphResolutionConfiguratorHelper::getRunKernelUuid(GraphResolutionConf
     return 0;
 }
 
-uint32_t GraphResolutionConfiguratorHelper::getRunKernelUuidOfOutput(HwSink hwSink, int32_t graphId, GraphLink** links)
+uint32_t GraphResolutionConfiguratorHelper::getRunKernelUuidOfOutput(HwSink hwSink, int32_t graphId, GraphLink** links, int numberOfLinks)
 {
     (void)graphId;
     (void)links;
+    (void)numberOfLinks;
 
     switch (hwSink)
     {
@@ -125,6 +126,7 @@ uint32_t GraphResolutionConfiguratorHelper::getRunKernelUuidOfOutput(HwSink hwSi
                 case 100014:    // Dol2Inputs_NoGmv_WithTnr
                 case 100016:    // Dol3Inputs_NoBurst_NoGmv_NoTnr
                 case 100018:    // Dol3Inputs_NoBurst_NoGmv_WithTnr
+                case 101114:    // Dol2Inputs_NoGmv_WithTnr_WithOpacity
                 case 100135:    // Bayer_NoPdaf_WithNntm_WithTnr_WithSap
                 case 100166:    // Bayer_WithPdaf2_NoGmv_WithTnr_WithSap_WithNntm
                 case 100145:    // Bayer_WithPdaf2_WithDvs_WithTnr_WithSap_WithNntm
@@ -140,7 +142,967 @@ uint32_t GraphResolutionConfiguratorHelper::getRunKernelUuidOfOutput(HwSink hwSi
                 case 100214:    // Dol2Inputs_NoGmv_WithTnr
                 case 100216:    // Dol3Inputs_NoBurst_NoGmv_NoTnr
                 case 100218:    // Dol3Inputs_NoBurst_NoGmv_WithTnr
-                    return 46539; // nntm_1_0
+                    return 8034; // nntm_1_2
+                case 200000:    // Bayer_NoPdaf_NoGmv_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200001:    // Bayer_NoPdaf_WithDvs_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200002:    // Bayer_NoPdaf_NoGmv_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200003:    // Bayer_NoPdaf_WithDvs_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200004:    // Bayer_NoPdaf_NoGmv_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200005:    // Bayer_NoPdaf_WithDvs_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200006:    // Bayer_NoPdaf_NoGmv_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200007:    // Bayer_NoPdaf_WithDvs_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200008:    // Bayer_WithPdaf2_NoGmv_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200009:    // Bayer_WithPdaf2_WithDvs_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200010:    // Bayer_WithPdaf2_NoGmv_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200011:    // Bayer_WithPdaf2_WithDvs_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200012:    // Bayer_WithPdaf2_NoGmv_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200013:    // Bayer_WithPdaf2_WithDvs_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200014:    // Bayer_WithPdaf2_NoGmv_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200015:    // Bayer_WithPdaf2_WithDvs_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200016:    // Bayer_WithPdaf3_NoGmv_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200017:    // Bayer_WithPdaf3_WithDvs_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200018:    // Bayer_WithPdaf3_NoGmv_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200019:    // Bayer_WithPdaf3_WithDvs_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200020:    // Bayer_WithPdaf3_NoGmv_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200021:    // Bayer_WithPdaf3_WithDvs_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200022:    // Bayer_WithPdaf3_NoGmv_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200023:    // Bayer_WithPdaf3_WithDvs_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200024:    // Dol2Inputs_NoGmv_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200025:    // Dol2Inputs_WithDvs_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200026:    // Dol2Inputs_NoGmv_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200027:    // Dol2Inputs_WithDvs_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200028:    // Dol2Inputs_NoGmv_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200029:    // Dol2Inputs_WithDvs_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200030:    // Dol2Inputs_NoGmv_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200031:    // Dol2Inputs_WithDvs_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200032:    // Bayer_WithPdaf3asPdaf2_NoGmv_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200033:    // Bayer_WithPdaf3asPdaf2_WithDvs_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200034:    // Bayer_WithPdaf3asPdaf2_NoGmv_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200035:    // Bayer_WithPdaf3asPdaf2_WithDvs_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200036:    // Bayer_WithPdaf3asPdaf2_NoGmv_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200037:    // Bayer_WithPdaf3asPdaf2_WithDvs_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200038:    // Bayer_WithPdaf3asPdaf2_NoGmv_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200039:    // Bayer_WithPdaf3asPdaf2_WithDvs_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200040:    // Dol3Inputs_NoGmv_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200041:    // Dol3Inputs_WithDvs_NoTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200042:    // Dol3Inputs_NoGmv_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200043:    // Dol3Inputs_WithDvs_WithTnr
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200044:    // Dol3Inputs_NoGmv_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200045:    // Dol3Inputs_WithDvs_NoTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200046:    // Dol3Inputs_NoGmv_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
+                case 200047:    // Dol3Inputs_WithDvs_WithTnr_WithSap
+                    for (int i = 0; i < numberOfLinks; ++i)
+                    {
+                        if (links[i]->src == GraphElementType::SwImv &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 23692; // imv;
+                        }
+                        if (links[i]->src == GraphElementType::SwNntm &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 8034; // nntm_1_2;
+                        }
+                        if (links[i]->src == GraphElementType::SwGdc &&
+                            links[i]->dest == GraphElementType::ProcessedMain && links[i]->isActive)
+                        {
+                            return 5637; // gdc7_1;
+                        }
+                    }
+                    break;
             }
             break;
         case HwSink::ProcessedSecondarySink:    return 19706; // sw_scaler
@@ -149,8 +1111,7 @@ uint32_t GraphResolutionConfiguratorHelper::getRunKernelUuidOfOutput(HwSink hwSi
 
     return 0;
 }
-
-StaticGraphStatus GraphResolutionConfiguratorHelper::getRunKernelUuidForResHistoryUpdate(std::vector<uint32_t>& kernelUuids, uint32_t startUuid)
+StaticGraphStatus GraphResolutionConfiguratorHelper::getRunKernelUuidForResHistoryUpdate(std::vector<uint32_t>& kernelUuids, uint32_t startUuid, uint32_t additonalFeaturesBit)
 {
     kernelUuids.clear();
 
@@ -160,6 +1121,7 @@ StaticGraphStatus GraphResolutionConfiguratorHelper::getRunKernelUuidForResHisto
     {
         return StaticGraphStatus::SG_ERROR;
     }
+    (void)additonalFeaturesBit;
 
     if (startUuid == 65466) // ESPA Crop
     {
@@ -178,7 +1140,7 @@ StaticGraphStatus GraphResolutionConfiguratorHelper::getRunKernelUuidForResHisto
         kernelUuids.push_back(37951);  // odr_ofs_dp_1_4
         kernelUuids.push_back(5637);  // gdc7_1
         kernelUuids.push_back(19706);  // sw_scaler
-        kernelUuids.push_back(46539);  // nntm_1_0
+        kernelUuids.push_back(8034);  // nntm_1_2
     }
     return StaticGraphStatus::SG_OK;
 }
@@ -222,30 +1184,30 @@ GraphResolutionConfiguratorKernelRole GraphResolutionConfiguratorHelper::getKern
         case 35263 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_bnlm_1_4
         case 9241 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_xnr_1_4
         case 51914 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_acm_1_4
+        case 20893 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_cas_1_4
         case 47873 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_tnr_bc_1_4
         case 14619 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_tnr_blend_1_4
-        case 20893 : return GraphResolutionConfiguratorKernelRole::SmurfFeeder; // ifd_segmap_cas_1_4
 
         default: return GraphResolutionConfiguratorKernelRole::None;
     }
 }
 
-uint32_t GraphResolutionConfiguratorHelper::getReferenceKernel(uint32_t kernelUuid)
+uint32_t GraphResolutionConfiguratorHelper::getReferenceKernel(uint32_t kernelUuid, uint32_t additonalFeaturesBit)
 {
+    additonalFeaturesBit = 0; // Not supported, ignore
     switch (kernelUuid)
     {
         case 29996 :     return 65466; // tnr_scaler_lb_1_1 from lbff_crop_espa_1_4
         case 20623 :     return 65466; // tnr_scaler_fp_1_1 from lbff_crop_espa_1_4
         case 28787 :     return 65466; // image_upscaler_1_1 from lbff_crop_espa_1_4
         case 50136 :     return 9385; // b2i_ds_output_1_1 from cas_1_1
+        case 9385 :     return 28787; // cas_1_1 from image_upscaler_1_1
         case 65437 :     return 20623; // odr_tnr_scale_fp_yuv4n_1_4 from tnr_scaler_fp_1_1
         case 30019 :     return 54721; // xnr_5_4 from gltm_2_0
         case 17531 :     return 36029; // acm_1_2 from glim_2_0
         case 1502 :     return 23639; // tnr7_bc_1_2 from tnr7_ims_1_2
         case 20119 :     return 16295; // tnr7_blend_1_1 from ifd_tnr_fp_blend_yuvnm1_1_4
-        case 9385 :     return 28787; // cas_1_1 from image_upscaler_1_1
     }
-
     return 0;
 }
 

@@ -1,3 +1,4 @@
+
 /*
 * INTEL CONFIDENTIAL
 * Copyright (c) 2026 Intel Corporation
@@ -68,6 +69,19 @@ enum class GraphConfigurationKeyAttributes : uint32_t
     LowPowerActive = 0x00000100,
     OpacityActive = 0x00000200,
     StillsModeCpHdr = 0x00000400,
+    B2bActive = 0x00000800,
+    WFov = 0x00001000,
+    NFov = 0x00002000,
+    DocScan = 0x00004000,
+    HighRes = 0x00008000,
+    AinrActive = 0x00010000,
+};
+
+enum class TuningModeKeyAttributes : uint32_t
+{
+    None = 0x00000000,
+    NormalLight = 0x00000001,
+    LowLight = 0x00000002,
 };
 
 struct GraphConfigurationKey {
@@ -111,6 +125,7 @@ struct SysToolVersion
 };
 
 struct BinaryHeader {
+    uint32_t additonalFeaturesBit = 0;
     uint32_t sapAttributes = 0;
     uint32_t binaryCommonHashCode = 0;
     uint32_t numberOfResolutions = 0;

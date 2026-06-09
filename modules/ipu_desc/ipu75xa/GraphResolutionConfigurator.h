@@ -76,7 +76,10 @@ enum class GraphResolutionConfiguratorKernelRole : uint8_t
 {
     UpScaler,
     DownScaler,
+    DownScalerSmall,
     EspaCropper,
+    CasEspaCropper,
+    EspaCropperSmall,
     NonRcb,
     Output,
     TnrOutput,
@@ -87,6 +90,8 @@ enum class GraphResolutionConfiguratorKernelRole : uint8_t
     SmurfFeeder,
     None
 };
+
+class Gen2FragmentsConfigurator;
 
 class RunKernelCoords
 {
@@ -177,6 +182,7 @@ private:
 };
 
 class Ipu8FragmentsConfigurator;
+class Ipu9FragmentsConfigurator;
 
 class SmurfKernelInfo
 {
@@ -188,11 +194,11 @@ public:
     StaticGraphKernelResCrop _originalSmurfOutputCrop = { 0,0,0,0 };
 };
 
-class Ipu8GraphResolutionConfigurator : public GraphResolutionConfigurator
+class Gen2GraphResolutionConfigurator : public GraphResolutionConfigurator
 {
 public:
-    Ipu8GraphResolutionConfigurator(IStaticGraphConfig* staticGraph);
-    ~Ipu8GraphResolutionConfigurator();
+    Gen2GraphResolutionConfigurator(IStaticGraphConfig* staticGraph);
+    virtual ~Gen2GraphResolutionConfigurator();
 
     StaticGraphStatus updateStaticGraphConfig(const RegionOfInterest& roi, bool isCenteredZoom);  // Use only if 1-stripe processing is not needed
     StaticGraphStatus updateStaticGraphConfig(const RegionOfInterest& roi, bool isCenteredZoom, bool& isFragmentsChanged);
@@ -203,7 +209,7 @@ public:
     // This function is used for statistics output only
     virtual StaticGraphStatus getStatsRoiFromSensorRoi(const SensorRoi& sensorRoi, ResolutionRoi& statsRoi);
 
-private:
+protected:
     StaticGraphStatus initRunKernel(GraphResolutionConfiguratorKernelRole role, StaticGraphRunKernel*& runKernel);
     StaticGraphStatus initRunKernel(uint32_t kernelUuid, StaticGraphRunKernel*& runKernel);
     StaticGraphStatus initOutputRunKernel();
@@ -217,15 +223,22 @@ private:
     StaticGraphStatus updateRunKernelOfScalers(ResolutionRoi& roi, bool& isFragmentsChanged);
 
     StaticGraphStatus updateRunKernelDownScaler(StaticGraphRunKernel* runKernel, ResolutionRoi& roi, uint32_t& outputWidth, uint32_t& outputHeight);
-    StaticGraphStatus updateRunKernelUpScaler(StaticGraphRunKernel* runKernel, ResolutionRoi& roi, StaticGraphKernelResCrop& cropperKernelCrop, uint32_t inputWidth, uint32_t inputHeight, uint32_t outputWidth, uint32_t outputHeight);
+    virtual StaticGraphStatus updateRunKernelUpScaler(StaticGraphRunKernel* runKernel, ResolutionRoi& roi, StaticGraphKernelResCrop& cropperKernelCrop,
+        uint32_t inputWidth, uint32_t inputHeight, uint32_t outputWidth, uint32_t outputHeight) = 0;
     StaticGraphStatus updateRunKernelCropper(StaticGraphRunKernel* runKernel, ResolutionRoi& roi, StaticGraphRunKernel* downscalerRunKernel, uint32_t outputWidth, uint32_t outputHeight);
     StaticGraphStatus updateRunKernelSmurf(SmurfKernelInfo* smurfInfo);
 
     StaticGraphStatus SanityCheck();
     StaticGraphStatus SanityCheckCrop(StaticGraphKernelResCrop* crop);
 
-    uint32_t _upscalerStepW = 1;
-    uint32_t _upscalerStepH = 1;
+    // Virtual hooks for derived class differences
+    virtual bool enforceUpscalerAspectRatioConstraints() const { return true; }
+    virtual void postScalerUpdate() {}
+#if SUPPORT_FRAGMENTS == 1
+    virtual Gen2FragmentsConfigurator* createFragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments) = 0;
+    StaticGraphStatus doFragmentsUpdate(bool& isFragmentsChanged);
+    Gen2FragmentsConfigurator* _fragmentsConfigurator = nullptr;
+#endif
 
     StaticGraphKernelResCrop _originalCropOfDownScaler = { 0,0,0,0 };
     StaticGraphKernelResCrop _originalCropOfUpscaler = { 0,0,0,0 };
@@ -243,6 +256,42 @@ private:
 
     // For striping
     OuterNode* _node = nullptr;
-    Ipu8FragmentsConfigurator* _fragmentsConfigurator = nullptr;
     bool _isFragments = false;
+};
+
+class Ipu8GraphResolutionConfigurator : public Gen2GraphResolutionConfigurator
+{
+public:
+    Ipu8GraphResolutionConfigurator(IStaticGraphConfig* staticGraph);
+    ~Ipu8GraphResolutionConfigurator();
+
+private:
+    StaticGraphStatus updateRunKernelUpScaler(StaticGraphRunKernel* runKernel, ResolutionRoi& roi, StaticGraphKernelResCrop& cropperKernelCrop,
+        uint32_t inputWidth, uint32_t inputHeight, uint32_t outputWidth, uint32_t outputHeight) override;
+#if SUPPORT_FRAGMENTS == 1
+    Gen2FragmentsConfigurator* createFragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments) override;
+#endif
+
+    uint32_t _upscalerStepW = 1;
+    uint32_t _upscalerStepH = 1;
+};
+
+class Ipu9GraphResolutionConfigurator : public Gen2GraphResolutionConfigurator
+{
+public:
+    Ipu9GraphResolutionConfigurator(IStaticGraphConfig* staticGraph);
+    ~Ipu9GraphResolutionConfigurator();
+
+private:
+    StaticGraphStatus updateRunKernelUpScaler(StaticGraphRunKernel* runKernel, ResolutionRoi& roi, StaticGraphKernelResCrop& cropperKernelCrop,
+        uint32_t inputWidth, uint32_t inputHeight, uint32_t outputWidth, uint32_t outputHeight) override;
+    void postScalerUpdate() override;
+    bool enforceUpscalerAspectRatioConstraints() const override { return false; }
+
+    StaticGraphRunKernel* _downscalerSmallRunKernel;
+    StaticGraphRunKernel* _cropperSmallRunKernel;
+
+#if SUPPORT_FRAGMENTS == 1
+    Gen2FragmentsConfigurator* createFragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments) override;
+#endif
 };

@@ -35,7 +35,7 @@ class GraphResolutionConfiguratorHelper
 public:
 
     static uint32_t getRunKernelUuid(GraphResolutionConfiguratorKernelRole role);
-    static uint32_t getRunKernelUuidOfOutput(HwSink hwSink, int32_t graphId, GraphLink** links);
+    static uint32_t getRunKernelUuidOfOutput(HwSink hwSink, int32_t graphId, GraphLink** links, int numberOfLinks = 0);
     static StaticGraphStatus getRunKernelUuidForResHistoryUpdate(std::vector<uint32_t>& kernelUuids);
     static uint32_t getRunKernelIoBufferSystemApiUuid();
     static uint32_t getRunKernelDownscalerSystemApiUuid();

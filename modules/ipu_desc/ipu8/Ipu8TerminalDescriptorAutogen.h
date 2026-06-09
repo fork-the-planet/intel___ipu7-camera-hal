@@ -157,12 +157,41 @@ enum SW_NNTMTerminalID
     SW_NNTM_TERMINAL_CONNECT_OUTPUT_2,
 };
 
+enum SW_B2BTerminalID
+{
+    SW_B2B_TERMINAL_CONNECT_INPUT,
+    SW_B2B_TERMINAL_CONNECT_OUTPUT,
+};
+
+enum SW_IMVTerminalID
+{
+    SW_IMV_TERMINAL_CONNECT_INPUT,
+    SW_IMV_TERMINAL_CONNECT_OUTPUT_1,
+    SW_IMV_TERMINAL_CONNECT_OUTPUT_2,
+};
+
+enum SW_REMOSAICTerminalID
+{
+    SW_REMOSAIC_TERMINAL_CONNECT_INPUT,
+    SW_REMOSAIC_TERMINAL_CONNECT_OUTPUT,
+};
+
+enum SW_AINRTerminalID
+{
+    SW_AINR_TERMINAL_CONNECT_INPUT,
+    SW_AINR_TERMINAL_CONNECT_OUTPUT,
+};
+
 extern TerminalDescriptor SW_ISYSTerminalDesc[];
 extern TerminalDescriptor LBFFTerminalDesc[];
 extern TerminalDescriptor SW_SEGNETTerminalDesc[];
 extern TerminalDescriptor SW_GDCTerminalDesc[];
 extern TerminalDescriptor SW_SCALERTerminalDesc[];
 extern TerminalDescriptor SW_NNTMTerminalDesc[];
+extern TerminalDescriptor SW_B2BTerminalDesc[];
+extern TerminalDescriptor SW_IMVTerminalDesc[];
+extern TerminalDescriptor SW_REMOSAICTerminalDesc[];
+extern TerminalDescriptor SW_AINRTerminalDesc[];
 
 extern int CountOfSW_ISYSTerminalDesc;
 extern int CountOfLBFFTerminalDesc;
@@ -170,3 +199,7 @@ extern int CountOfSW_SEGNETTerminalDesc;
 extern int CountOfSW_GDCTerminalDesc;
 extern int CountOfSW_SCALERTerminalDesc;
 extern int CountOfSW_NNTMTerminalDesc;
+extern int CountOfSW_B2BTerminalDesc;
+extern int CountOfSW_IMVTerminalDesc;
+extern int CountOfSW_REMOSAICTerminalDesc;
+extern int CountOfSW_AINRTerminalDesc;

@@ -34,9 +34,13 @@
 #include "Ipu7xStaticGraphTypesAutogen.h"
 #include "Ipu7xStaticGraphBinaryAutogen.h"
 
+#define SUPPORT_HISTORY_CHANGE_BASED_ON_GRAPH 0
+
 #define SUPPORT_KEY_RESOLUTIONS 1
 
 #define SUPPORT_FRAGMENTS 0
+
+#define SUPPORT_TM_SWITCH 0
 
 enum InnerNodeOption
 {
@@ -79,6 +83,7 @@ public:
     StaticGraphNodeKernels nodeKernels = {};
 
     uint8_t numberOfFragments = 0;
+
     OuterNode() {}
     ~OuterNode();
 
@@ -146,12 +151,13 @@ protected:
 class IStaticGraphConfig
 {
 public:
-    IStaticGraphConfig(SensorMode* selectedSensorMode, VirtualSinkMapping* sinkMappingConfiguration, int32_t graphId, int32_t selectedSettingsId, ZoomKeyResolutions* zoomKeyResolutions);
+    IStaticGraphConfig(SensorMode* selectedSensorMode, VirtualSinkMapping* sinkMappingConfiguration, int32_t graphId, int32_t selectedSettingsId, int32_t additonalFeaturesBit, ZoomKeyResolutions* zoomKeyResolutions);
     virtual ~IStaticGraphConfig(){}
     StaticGraphStatus getGraphTopology(GraphTopology** topology);
     StaticGraphStatus getSensorMode(SensorMode** sensorMode);
     StaticGraphStatus getGraphId(int32_t* id);
     StaticGraphStatus getSettingsId(int32_t* id);
+    StaticGraphStatus getAdditionalFeaturesBit(int32_t* featuresBit);
     StaticGraphStatus getVirtualSinkConnection(VirtualSink& virtualSink, HwSink* hwSink);
     StaticGraphStatus getZoomKeyResolutions(ZoomKeyResolutions** zoomKeyResolutions);
     virtual StaticGraphStatus updateConfiguration(uint32_t selectedIndex = 0) = 0;
@@ -164,6 +170,7 @@ protected:
 private:
     int32_t _graphId;
     int32_t _settingsId;
+    int32_t _additonalFeaturesBit;
     VirtualSinkMapping _selectedSinkMappingConfiguration;
 };
 
@@ -473,6 +480,7 @@ struct GraphConfiguration100000
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffBayerOuterNodeConfiguration lbffBayerOuterNodeConfiguration;
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[11];
 };
 
@@ -484,6 +492,7 @@ struct GraphConfiguration100001
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwGdcOuterNodeConfiguration swGdcOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[23];
 };
 
@@ -494,6 +503,7 @@ struct GraphConfiguration100002
     LbffBayerOuterNodeConfiguration lbffBayerOuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[18];
 };
 
@@ -504,6 +514,7 @@ struct GraphConfiguration100003
     LbffBayerWithGmvOuterNodeConfiguration lbffBayerWithGmvOuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwGdcOuterNodeConfiguration swGdcOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[22];
 };
 
@@ -515,6 +526,7 @@ struct GraphConfiguration100004
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwGdcOuterNodeConfiguration swGdcOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[21];
 };
 
@@ -526,6 +538,7 @@ struct GraphConfiguration100005
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwNntmOuterNodeConfiguration swNntmOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[21];
 };
 
@@ -537,6 +550,7 @@ struct GraphConfiguration100006
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     LbffIrNoGmvIrStreamOuterNodeConfiguration lbffIrNoGmvIrStreamOuterNodeConfiguration;
     BbpsIrWithTnrOuterNodeConfiguration bbpsIrWithTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[30];
 };
 
@@ -545,6 +559,7 @@ struct GraphConfiguration100007
     VirtualSinkMapping sinkMappingConfiguration;
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffBayerBurstOutNo3AOuterNodeConfiguration lbffBayerBurstOutNo3AOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[3];
 };
 
@@ -556,6 +571,7 @@ struct GraphConfiguration100008
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
     LbffIrNoGmvIrStreamOuterNodeConfiguration lbffIrNoGmvIrStreamOuterNodeConfiguration;
     BbpsIrNoTnrOuterNodeConfiguration bbpsIrNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[20];
 };
 
@@ -564,6 +580,7 @@ struct GraphConfiguration100015
     VirtualSinkMapping sinkMappingConfiguration;
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffBayerOuterNodeConfiguration lbffBayerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[9];
 };
 
@@ -571,6 +588,7 @@ struct GraphConfiguration100016
 {
     VirtualSinkMapping sinkMappingConfiguration;
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[4];
 };
 
@@ -580,6 +598,7 @@ struct GraphConfiguration100024
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffIrNo2ANoGmvOuterNodeConfiguration lbffIrNo2ANoGmvOuterNodeConfiguration;
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[9];
 };
 
@@ -589,6 +608,7 @@ struct GraphConfiguration100025
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffIrNoGmvOuterNodeConfiguration lbffIrNoGmvOuterNodeConfiguration;
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[11];
 };
 
@@ -596,6 +616,7 @@ struct GraphConfiguration100026
 {
     VirtualSinkMapping sinkMappingConfiguration;
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[2];
 };
 
@@ -605,6 +626,7 @@ struct GraphConfiguration100027
     IsysPdaf2OuterNodeConfiguration isysPdaf2OuterNodeConfiguration;
     LbffBayerPdaf2OuterNodeConfiguration lbffBayerPdaf2OuterNodeConfiguration;
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[14];
 };
 
@@ -614,6 +636,7 @@ struct GraphConfiguration100028
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffBayerPdaf3OuterNodeConfiguration lbffBayerPdaf3OuterNodeConfiguration;
     BbpsNoTnrOuterNodeConfiguration bbpsNoTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[12];
 };
 
@@ -623,6 +646,7 @@ struct GraphConfiguration100029
     IsysPdaf2OuterNodeConfiguration isysPdaf2OuterNodeConfiguration;
     LbffBayerPdaf2OuterNodeConfiguration lbffBayerPdaf2OuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[19];
 };
 
@@ -632,6 +656,7 @@ struct GraphConfiguration100030
     IsysOuterNodeConfiguration isysOuterNodeConfiguration;
     LbffBayerPdaf3OuterNodeConfiguration lbffBayerPdaf3OuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[17];
 };
 
@@ -645,6 +670,7 @@ struct GraphConfiguration100031
     SwGtmOuterNodeConfiguration swGtmOuterNodeConfiguration;
     SwNntmOuterNodeConfiguration swNntmOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[23];
 };
 
@@ -658,6 +684,7 @@ struct GraphConfiguration100032
     SwGtmOuterNodeConfiguration swGtmOuterNodeConfiguration;
     SwNntmOuterNodeConfiguration swNntmOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[28];
 };
 
@@ -665,6 +692,7 @@ struct GraphConfiguration100035
 {
     VirtualSinkMapping sinkMappingConfiguration;
     IsysDolOuterNodeConfiguration isysDolOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[4];
 };
 
@@ -672,6 +700,7 @@ struct GraphConfiguration100036
 {
     VirtualSinkMapping sinkMappingConfiguration;
     IsysPdaf2OuterNodeConfiguration isysPdaf2OuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[4];
 };
 
@@ -682,6 +711,7 @@ struct GraphConfiguration100037
     LbffBayerPdaf2WithGmvOuterNodeConfiguration lbffBayerPdaf2WithGmvOuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwGdcOuterNodeConfiguration swGdcOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[25];
 };
 
@@ -692,6 +722,7 @@ struct GraphConfiguration100038
     LbffBayerPdaf3WithGmvOuterNodeConfiguration lbffBayerPdaf3WithGmvOuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwGdcOuterNodeConfiguration swGdcOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[23];
 };
 
@@ -704,6 +735,7 @@ struct GraphConfiguration100039
     LbffIrWithGmvIrStreamOuterNodeConfiguration lbffIrWithGmvIrStreamOuterNodeConfiguration;
     BbpsIrWithTnrOuterNodeConfiguration bbpsIrWithTnrOuterNodeConfiguration;
     SwGdcOuterNodeConfiguration swGdcOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[36];
 };
 
@@ -715,6 +747,7 @@ struct GraphConfiguration100040
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwNntmOuterNodeConfiguration swNntmOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[21];
 };
 
@@ -726,6 +759,7 @@ struct GraphConfiguration100041
     LbffBayerOuterNodeConfiguration lbffBayerOuterNodeConfiguration;
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[19];
 };
 
@@ -737,6 +771,7 @@ struct GraphConfiguration100042
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwImvOuterNodeConfiguration swImvOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[21];
 };
 
@@ -748,6 +783,7 @@ struct GraphConfiguration100044
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwDeskviewOuterNodeConfiguration swDeskviewOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[21];
 };
 
@@ -760,6 +796,7 @@ struct GraphConfiguration100045
     SwNntmOuterNodeConfiguration swNntmOuterNodeConfiguration;
     SwRotationOuterNodeConfiguration swRotationOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[22];
 };
 
@@ -771,6 +808,7 @@ struct GraphConfiguration100046
     BbpsWithTnrOuterNodeConfiguration bbpsWithTnrOuterNodeConfiguration;
     SwDeskviewNoblendOuterNodeConfiguration swDeskviewNoblendOuterNodeConfiguration;
     SwScalerOuterNodeConfiguration swScalerOuterNodeConfiguration;
+    int32_t numberOfActualLinks = 0;
     StaticGraphLinkConfiguration linkConfigurations[21];
 };
 #pragma pack(pop)
@@ -1071,10 +1109,10 @@ public:
 class StaticGraph100000 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100000(GraphConfiguration100000** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100000(GraphConfiguration100000** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100000();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 4190972869;  // autogenerated
+    static const uint32_t hashCode = 980154548;  // autogenerated
 
 private:
     // Configuration
@@ -1092,6 +1130,7 @@ private:
     imageSubGraphTopology100000 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[11];
 };
 
@@ -1113,10 +1152,10 @@ public:
 class StaticGraph100001 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100001(GraphConfiguration100001** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100001(GraphConfiguration100001** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100001();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 4000592719;  // autogenerated
+    static const uint32_t hashCode = 1405953078;  // autogenerated
 
 private:
     // Configuration
@@ -1136,6 +1175,7 @@ private:
     imageSubGraphTopology100001 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[23];
 };
 
@@ -1156,10 +1196,10 @@ public:
 class StaticGraph100002 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100002(GraphConfiguration100002** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100002(GraphConfiguration100002** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100002();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 3682957809;  // autogenerated
+    static const uint32_t hashCode = 3703338028;  // autogenerated
 
 private:
     // Configuration
@@ -1178,6 +1218,7 @@ private:
     imageSubGraphTopology100002 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[18];
 };
 
@@ -1198,10 +1239,10 @@ public:
 class StaticGraph100003 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100003(GraphConfiguration100003** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100003(GraphConfiguration100003** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100003();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 676510519;  // autogenerated
+    static const uint32_t hashCode = 1330586970;  // autogenerated
 
 private:
     // Configuration
@@ -1220,6 +1261,7 @@ private:
     imageSubGraphTopology100003 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[22];
 };
 
@@ -1241,10 +1283,10 @@ public:
 class StaticGraph100004 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100004(GraphConfiguration100004** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100004(GraphConfiguration100004** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100004();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 865685625;  // autogenerated
+    static const uint32_t hashCode = 2603394768;  // autogenerated
 
 private:
     // Configuration
@@ -1264,6 +1306,7 @@ private:
     imageSubGraphTopology100004 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[21];
 };
 
@@ -1285,10 +1328,10 @@ public:
 class StaticGraph100005 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100005(GraphConfiguration100005** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100005(GraphConfiguration100005** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100005();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 1942182435;  // autogenerated
+    static const uint32_t hashCode = 654703298;  // autogenerated
 
 private:
     // Configuration
@@ -1308,6 +1351,7 @@ private:
     imageSubGraphTopology100005 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[21];
 };
 
@@ -1356,10 +1400,10 @@ public:
 class StaticGraph100006 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100006(GraphConfiguration100006** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100006(GraphConfiguration100006** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100006();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 2847247459;  // autogenerated
+    static const uint32_t hashCode = 1103879710;  // autogenerated
 
 private:
     // Configuration
@@ -1381,6 +1425,7 @@ private:
     image_irSubGraphTopology100006 _image_irSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[30];
 };
 
@@ -1399,10 +1444,10 @@ public:
 class StaticGraph100007 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100007(GraphConfiguration100007** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100007(GraphConfiguration100007** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100007();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 3225545321;  // autogenerated
+    static const uint32_t hashCode = 3778332976;  // autogenerated
 
 private:
     // Configuration
@@ -1419,6 +1464,7 @@ private:
     imageSubGraphTopology100007 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[3];
 };
 
@@ -1467,10 +1513,10 @@ public:
 class StaticGraph100008 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100008(GraphConfiguration100008** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100008(GraphConfiguration100008** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100008();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 541001651;  // autogenerated
+    static const uint32_t hashCode = 1085440998;  // autogenerated
 
 private:
     // Configuration
@@ -1492,6 +1538,7 @@ private:
     image_irSubGraphTopology100008 _image_irSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[20];
 };
 
@@ -1510,10 +1557,10 @@ public:
 class StaticGraph100015 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100015(GraphConfiguration100015** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100015(GraphConfiguration100015** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100015();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 1836456445;  // autogenerated
+    static const uint32_t hashCode = 2007959116;  // autogenerated
 
 private:
     // Configuration
@@ -1530,6 +1577,7 @@ private:
     imageSubGraphTopology100015 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[9];
 };
 
@@ -1547,10 +1595,10 @@ public:
 class StaticGraph100016 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100016(GraphConfiguration100016** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100016(GraphConfiguration100016** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100016();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 2096242817;  // autogenerated
+    static const uint32_t hashCode = 2131944732;  // autogenerated
 
 private:
     // Configuration
@@ -1566,6 +1614,7 @@ private:
     imageSubGraphTopology100016 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[4];
 };
 
@@ -1585,10 +1634,10 @@ public:
 class StaticGraph100024 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100024(GraphConfiguration100024** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100024(GraphConfiguration100024** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100024();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 4016039499;  // autogenerated
+    static const uint32_t hashCode = 2172038410;  // autogenerated
 
 private:
     // Configuration
@@ -1606,6 +1655,7 @@ private:
     imageSubGraphTopology100024 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[9];
 };
 
@@ -1625,10 +1675,10 @@ public:
 class StaticGraph100025 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100025(GraphConfiguration100025** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100025(GraphConfiguration100025** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100025();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 4190972869;  // autogenerated
+    static const uint32_t hashCode = 980154548;  // autogenerated
 
 private:
     // Configuration
@@ -1646,6 +1696,7 @@ private:
     imageSubGraphTopology100025 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[11];
 };
 
@@ -1661,10 +1712,10 @@ public:
 class StaticGraph100026 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100026(GraphConfiguration100026** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100026(GraphConfiguration100026** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100026();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 772747713;  // autogenerated
+    static const uint32_t hashCode = 53035668;  // autogenerated
 
 private:
     // Configuration
@@ -1680,6 +1731,7 @@ private:
     rawSubGraphTopology100026 _rawSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[2];
 };
 
@@ -1699,10 +1751,10 @@ public:
 class StaticGraph100027 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100027(GraphConfiguration100027** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100027(GraphConfiguration100027** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100027();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 504924009;  // autogenerated
+    static const uint32_t hashCode = 129583068;  // autogenerated
 
 private:
     // Configuration
@@ -1720,6 +1772,7 @@ private:
     imageSubGraphTopology100027 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[14];
 };
 
@@ -1739,10 +1792,10 @@ public:
 class StaticGraph100028 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100028(GraphConfiguration100028** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100028(GraphConfiguration100028** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100028();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 267295079;  // autogenerated
+    static const uint32_t hashCode = 3562841050;  // autogenerated
 
 private:
     // Configuration
@@ -1760,6 +1813,7 @@ private:
     imageSubGraphTopology100028 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[12];
 };
 
@@ -1779,10 +1833,10 @@ public:
 class StaticGraph100029 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100029(GraphConfiguration100029** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100029(GraphConfiguration100029** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100029();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 3664278837;  // autogenerated
+    static const uint32_t hashCode = 3233661892;  // autogenerated
 
 private:
     // Configuration
@@ -1800,6 +1854,7 @@ private:
     imageSubGraphTopology100029 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[19];
 };
 
@@ -1819,10 +1874,10 @@ public:
 class StaticGraph100030 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100030(GraphConfiguration100030** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100030(GraphConfiguration100030** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100030();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 1580221107;  // autogenerated
+    static const uint32_t hashCode = 3440520914;  // autogenerated
 
 private:
     // Configuration
@@ -1840,6 +1895,7 @@ private:
     imageSubGraphTopology100030 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[17];
 };
 
@@ -1863,10 +1919,10 @@ public:
 class StaticGraph100031 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100031(GraphConfiguration100031** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100031(GraphConfiguration100031** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100031();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 775439101;  // autogenerated
+    static const uint32_t hashCode = 2218072780;  // autogenerated
 
 private:
     // Configuration
@@ -1888,6 +1944,7 @@ private:
     imageSubGraphTopology100031 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[23];
 };
 
@@ -1911,10 +1968,10 @@ public:
 class StaticGraph100032 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100032(GraphConfiguration100032** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100032(GraphConfiguration100032** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100032();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 2582397713;  // autogenerated
+    static const uint32_t hashCode = 3394144828;  // autogenerated
 
 private:
     // Configuration
@@ -1936,6 +1993,7 @@ private:
     imageSubGraphTopology100032 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[28];
 };
 
@@ -1951,10 +2009,10 @@ public:
 class StaticGraph100035 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100035(GraphConfiguration100035** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100035(GraphConfiguration100035** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100035();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 673385603;  // autogenerated
+    static const uint32_t hashCode = 3196824198;  // autogenerated
 
 private:
     // Configuration
@@ -1970,6 +2028,7 @@ private:
     rawSubGraphTopology100035 _rawSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[4];
 };
 
@@ -1985,10 +2044,10 @@ public:
 class StaticGraph100036 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100036(GraphConfiguration100036** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100036(GraphConfiguration100036** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100036();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 673385603;  // autogenerated
+    static const uint32_t hashCode = 3196824198;  // autogenerated
 
 private:
     // Configuration
@@ -2004,6 +2063,7 @@ private:
     rawSubGraphTopology100036 _rawSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[4];
 };
 
@@ -2024,10 +2084,10 @@ public:
 class StaticGraph100037 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100037(GraphConfiguration100037** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100037(GraphConfiguration100037** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100037();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 3458381563;  // autogenerated
+    static const uint32_t hashCode = 3137130706;  // autogenerated
 
 private:
     // Configuration
@@ -2046,6 +2106,7 @@ private:
     imageSubGraphTopology100037 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[25];
 };
 
@@ -2066,10 +2127,10 @@ public:
 class StaticGraph100038 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100038(GraphConfiguration100038** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100038(GraphConfiguration100038** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100038();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 3887639909;  // autogenerated
+    static const uint32_t hashCode = 3062108;  // autogenerated
 
 private:
     // Configuration
@@ -2088,6 +2149,7 @@ private:
     imageSubGraphTopology100038 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[23];
 };
 
@@ -2138,10 +2200,10 @@ public:
 class StaticGraph100039 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100039(GraphConfiguration100039** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100039(GraphConfiguration100039** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100039();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 2065622235;  // autogenerated
+    static const uint32_t hashCode = 1263063894;  // autogenerated
 
 private:
     // Configuration
@@ -2164,6 +2226,7 @@ private:
     image_irSubGraphTopology100039 _image_irSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[36];
 };
 
@@ -2185,10 +2248,10 @@ public:
 class StaticGraph100040 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100040(GraphConfiguration100040** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100040(GraphConfiguration100040** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100040();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 1313599209;  // autogenerated
+    static const uint32_t hashCode = 2586307264;  // autogenerated
 
 private:
     // Configuration
@@ -2208,6 +2271,7 @@ private:
     imageSubGraphTopology100040 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[21];
 };
 
@@ -2229,10 +2293,10 @@ public:
 class StaticGraph100041 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100041(GraphConfiguration100041** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100041(GraphConfiguration100041** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100041();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 2370718729;  // autogenerated
+    static const uint32_t hashCode = 4040435208;  // autogenerated
 
 private:
     // Configuration
@@ -2252,6 +2316,7 @@ private:
     imageSubGraphTopology100041 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[19];
 };
 
@@ -2273,10 +2338,10 @@ public:
 class StaticGraph100042 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100042(GraphConfiguration100042** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100042(GraphConfiguration100042** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100042();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 3223357017;  // autogenerated
+    static const uint32_t hashCode = 3945721520;  // autogenerated
 
 private:
     // Configuration
@@ -2296,6 +2361,7 @@ private:
     imageSubGraphTopology100042 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[21];
 };
 
@@ -2317,10 +2383,10 @@ public:
 class StaticGraph100044 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100044(GraphConfiguration100044** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100044(GraphConfiguration100044** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100044();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 865685625;  // autogenerated
+    static const uint32_t hashCode = 2603394768;  // autogenerated
 
 private:
     // Configuration
@@ -2340,6 +2406,7 @@ private:
     imageSubGraphTopology100044 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[21];
 };
 
@@ -2362,10 +2429,10 @@ public:
 class StaticGraph100045 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100045(GraphConfiguration100045** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100045(GraphConfiguration100045** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100045();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 433119547;  // autogenerated
+    static const uint32_t hashCode = 1668554766;  // autogenerated
 
 private:
     // Configuration
@@ -2386,6 +2453,7 @@ private:
     imageSubGraphTopology100045 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[22];
 };
 
@@ -2407,10 +2475,10 @@ public:
 class StaticGraph100046 : public IStaticGraphConfig
 {
 public:
-    StaticGraph100046(GraphConfiguration100046** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId);
+    StaticGraph100046(GraphConfiguration100046** selectedGraphConfiguration, uint32_t kernelConfigurationsOptionsCount, ZoomKeyResolutions* zoomKeyResolutions, VirtualSinkMapping* sinkMappingConfiguration, SensorMode* selectedSensorMode, int32_t selectedSettingsId, int32_t additonalFeaturesBit);
     ~StaticGraph100046();
     StaticGraphStatus updateConfiguration(uint32_t selectedIndex=0);
-    static const uint32_t hashCode = 865685625;  // autogenerated
+    static const uint32_t hashCode = 2603394768;  // autogenerated
 
 private:
     // Configuration
@@ -2430,6 +2498,7 @@ private:
     imageSubGraphTopology100046 _imageSubGraph;
 
     // All graph links
+
     GraphLink _graphLinks[21];
 };
 

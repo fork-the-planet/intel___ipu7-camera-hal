@@ -202,7 +202,6 @@ struct StaticGraphLinkConfiguration {
     uint32_t bufferSize = 0;
     uint8_t streamingMode = 0;
 };
-
 struct VirtualSinkMapping {
     uint8_t preview = 0;
     uint8_t video = 0;
@@ -321,36 +320,67 @@ enum class GraphElementType : uint8_t {
     RawIsysDolLong,
     RawIsysPdaf,
     // Outer Nodes
+
     Isys,
+
     LbffBayer,
+
     BbpsNoTnr,
+
     LbffBayerWithGmv,
+
     BbpsWithTnr,
+
     SwGdc,
+
     SwScaler,
+
     SwNntm,
+
     LbffRgbIr,
+
     LbffIrNoGmvIrStream,
+
     BbpsIrWithTnr,
+
     LbffBayerBurstOutNo3A,
+
     BbpsIrNoTnr,
+
     LbffIrNo2ANoGmv,
+
     LbffIrNoGmv,
+
     IsysPdaf2,
+
     LbffBayerPdaf2,
+
     LbffBayerPdaf3,
+
     IsysDol,
+
     SwDol,
+
     LbffDol,
+
     SwGtm,
+
     LbffBayerPdaf2WithGmv,
+
     LbffBayerPdaf3WithGmv,
+
     LbffRgbIrWithGmv,
+
     LbffIrWithGmvIrStream,
+
     SwVai,
+
     SwImv,
+
     SwDeskview,
+
     SwRotation,
+
     SwDeskviewNoblend,
 };
 

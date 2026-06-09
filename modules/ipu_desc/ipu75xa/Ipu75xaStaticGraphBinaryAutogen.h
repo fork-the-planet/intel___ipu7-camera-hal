@@ -1,3 +1,4 @@
+
 /*
 * INTEL CONFIDENTIAL
 * Copyright (c) 2026 Intel Corporation
@@ -70,7 +71,7 @@ enum class GraphConfigurationKeyAttributes : uint32_t
     DocScan = 0x00000400,
     StillsModeCpHdr = 0x00000800,
     B2bActive = 0x00001000,
-    AirActive = 0x00002000,
+    AinrActive = 0x00002000,
 };
 
 struct GraphConfigurationKey {

@@ -586,7 +586,7 @@ TerminalDescriptor SW_B2BTerminalDesc[] =
         PAC_BUFFER_TYPE_NONE,
         TERMINAL_BUFFER_TYPE_DATA,
         TERMINAL_DIR_IN,
-        45372, // b2b
+        61733, // b2b
     },
     {
         SW_B2B_TERMINAL_CONNECT_OUTPUT,
@@ -595,7 +595,7 @@ TerminalDescriptor SW_B2BTerminalDesc[] =
         PAC_BUFFER_TYPE_NONE,
         TERMINAL_BUFFER_TYPE_DATA,
         TERMINAL_DIR_OUT,
-        45372, // b2b
+        61733, // b2b
     },
 };
 

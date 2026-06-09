@@ -28,18 +28,21 @@
 #include "GraphResolutionConfiguratorInclude.h"
 #include <map>
 
-class Ipu8FragmentsConfigurator
+class Gen2FragmentsConfigurator
 {
 public:
     static const int32_t MIN_STRIPE_WIDTH_BEFORE_TNR = 128;
     static const int32_t MIN_STRIPE_WIDTH_AFTER_TNR = 64;
     static const int32_t UPSCALER_MAX_OUTPUT_WIDTH = 4672;
-    Ipu8FragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments);
+
+    Gen2FragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments);
+    virtual ~Gen2FragmentsConfigurator() = default;
 
     StaticGraphStatus configureFragments(std::vector<SmurfKernelInfo*>& smurfKernels);
 
-private:
-    // Stripe Actions - each filter will perform one action according to its role
+protected:
+    virtual bool enforceUpscalerAspectRatioConstraints() const { return true; }
+
     StaticGraphStatus configFragmentsDownscaler(StaticGraphRunKernel* runKernel, StaticGraphFragmentDesc* kernelFragments, uint32_t prevKernelUuid, StaticGraphFragmentDesc* prevKernelFragments);
     StaticGraphStatus configFragmentsCropper(StaticGraphRunKernel* runKernel, StaticGraphFragmentDesc* kernelFragments, uint32_t prevKernelUuid, StaticGraphFragmentDesc* prevKernelFragments);
     StaticGraphStatus configFragmentsUpscaler(StaticGraphRunKernel* runKernel, StaticGraphFragmentDesc* kernelFragments, uint32_t prevKernelUuid, StaticGraphFragmentDesc* prevKernelFragments);
@@ -61,10 +64,23 @@ private:
     IStaticGraphConfig* _staticGraph = nullptr;
     uint8_t _numberOfFragments = 0;
 
-    // Fragments binaries do not contain output start x, so we keep them here
     std::map<uint32_t, std::vector<uint16_t>> _outputStartX;
 
-    // Save TNR resolutions for feeder configurations
     StaticGraphFragmentDesc* _tnrScalerFragments = nullptr;
     StaticGraphRunKernel* _tnrScalerRunKernel = nullptr;
+};
+
+class Ipu8FragmentsConfigurator : public Gen2FragmentsConfigurator
+{
+public:
+    Ipu8FragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments);
+};
+
+class Ipu9FragmentsConfigurator : public Gen2FragmentsConfigurator
+{
+public:
+    Ipu9FragmentsConfigurator(IStaticGraphConfig* staticGraph, OuterNode* node, uint8_t numberOfFragments);
+
+protected:
+    bool enforceUpscalerAspectRatioConstraints() const override { return false; }
 };

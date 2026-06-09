@@ -95,6 +95,11 @@ uint32_t StaticGraphReader::GetSAPAttribute() const
     return 0;
 }
 
+uint32_t StaticGraphReader::GetGlobalAdditionalFeaturesBit() const
+{
+    return 0;
+}
+
 uint32_t StaticGraphReader::GetAdditionalFeaturesBit(const GraphConfigurationHeader* header) const
 {
     return header ? header->additonalFeaturesBit : 0;
@@ -228,7 +233,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100000(
-                reinterpret_cast<GraphConfiguration100000**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100000**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100001:
             if (StaticGraph100001::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -239,7 +244,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100001(
-                reinterpret_cast<GraphConfiguration100001**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100001**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100002:
             if (StaticGraph100002::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -250,7 +255,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100002(
-                reinterpret_cast<GraphConfiguration100002**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100002**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100003:
             if (StaticGraph100003::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -261,7 +266,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100003(
-                reinterpret_cast<GraphConfiguration100003**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100003**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100004:
             if (StaticGraph100004::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -272,7 +277,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100004(
-                reinterpret_cast<GraphConfiguration100004**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100004**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100005:
             if (StaticGraph100005::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -283,7 +288,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100005(
-                reinterpret_cast<GraphConfiguration100005**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100005**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100006:
             if (StaticGraph100006::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -294,7 +299,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100006(
-                reinterpret_cast<GraphConfiguration100006**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100006**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100007:
             if (StaticGraph100007::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -305,7 +310,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100007(
-                reinterpret_cast<GraphConfiguration100007**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100007**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100008:
             if (StaticGraph100008::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -316,7 +321,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100008(
-                reinterpret_cast<GraphConfiguration100008**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100008**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100015:
             if (StaticGraph100015::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -327,7 +332,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100015(
-                reinterpret_cast<GraphConfiguration100015**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100015**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100016:
             if (StaticGraph100016::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -338,7 +343,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100016(
-                reinterpret_cast<GraphConfiguration100016**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100016**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100024:
             if (StaticGraph100024::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -349,7 +354,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100024(
-                reinterpret_cast<GraphConfiguration100024**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100024**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100025:
             if (StaticGraph100025::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -360,7 +365,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100025(
-                reinterpret_cast<GraphConfiguration100025**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100025**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100026:
             if (StaticGraph100026::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -371,7 +376,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100026(
-                reinterpret_cast<GraphConfiguration100026**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100026**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100027:
             if (StaticGraph100027::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -382,7 +387,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100027(
-                reinterpret_cast<GraphConfiguration100027**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100027**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100028:
             if (StaticGraph100028::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -393,7 +398,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100028(
-                reinterpret_cast<GraphConfiguration100028**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100028**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100029:
             if (StaticGraph100029::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -404,7 +409,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100029(
-                reinterpret_cast<GraphConfiguration100029**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100029**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100030:
             if (StaticGraph100030::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -415,7 +420,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100030(
-                reinterpret_cast<GraphConfiguration100030**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100030**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100031:
             if (StaticGraph100031::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -426,7 +431,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100031(
-                reinterpret_cast<GraphConfiguration100031**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100031**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100032:
             if (StaticGraph100032::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -437,7 +442,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100032(
-                reinterpret_cast<GraphConfiguration100032**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100032**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100035:
             if (StaticGraph100035::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -448,7 +453,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100035(
-                reinterpret_cast<GraphConfiguration100035**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100035**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100036:
             if (StaticGraph100036::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -459,7 +464,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100036(
-                reinterpret_cast<GraphConfiguration100036**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100036**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100037:
             if (StaticGraph100037::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -470,7 +475,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100037(
-                reinterpret_cast<GraphConfiguration100037**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100037**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100038:
             if (StaticGraph100038::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -481,7 +486,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100038(
-                reinterpret_cast<GraphConfiguration100038**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100038**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100039:
             if (StaticGraph100039::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -492,7 +497,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100039(
-                reinterpret_cast<GraphConfiguration100039**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100039**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100040:
             if (StaticGraph100040::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -503,7 +508,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100040(
-                reinterpret_cast<GraphConfiguration100040**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100040**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100041:
             if (StaticGraph100041::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -514,7 +519,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100041(
-                reinterpret_cast<GraphConfiguration100041**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100041**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100042:
             if (StaticGraph100042::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -525,7 +530,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100042(
-                reinterpret_cast<GraphConfiguration100042**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100042**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100044:
             if (StaticGraph100044::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -536,7 +541,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100044(
-                reinterpret_cast<GraphConfiguration100044**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100044**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100045:
             if (StaticGraph100045::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -547,7 +552,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100045(
-                reinterpret_cast<GraphConfiguration100045**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100045**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         case 100046:
             if (StaticGraph100046::hashCode != selectedGraphConfigurationHeader->graphHashCode)
@@ -558,7 +563,7 @@ StaticGraphStatus StaticGraphReader::GetStaticGraphConfig(GraphConfigurationKey&
                 return StaticGraphStatus::SG_ERROR;
             }
             *graph = new StaticGraph100046(
-                reinterpret_cast<GraphConfiguration100046**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId);
+                reinterpret_cast<GraphConfiguration100046**>(selectedConfigurationData), selectedConfigurationsCount, &_zoomKeyResolutions, &selectedSinkMappingConfiguration, &_sensorModes[selectedGraphConfigurationHeader->sensorModeIndex], selectedGraphConfigurationHeader->settingId, selectedGraphConfigurationHeader->additonalFeaturesBit);
             break;
         default:
             delete[] selectedConfigurationData;

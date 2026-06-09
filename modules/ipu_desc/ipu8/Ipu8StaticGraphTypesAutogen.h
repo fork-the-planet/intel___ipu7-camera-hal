@@ -66,6 +66,10 @@ enum class NodeResourceId : uint8_t {
     SwGdc = 4,
     SwScaler = 5,
     SwNntm = 6,
+    SwB2b = 7,
+    SwImv = 8,
+    SwRemosaic = 9,
+    SwAinr = 10,
 };
 
 enum class StaticGraphStatus : uint8_t
@@ -98,11 +102,11 @@ enum class HwSink : uint8_t
     AwbSatOutSink,
     ImageMpSink,
     ImageDpSink,
-    GmvMatchOutSink,
     ProcessedMainSink,
+    ProcessedSecondarySink,
+    GmvMatchOutSink,
     CvOutputSink,
     SegnetSecondarySink,
-    ProcessedSecondarySink,
     PdafOutSink,
     AwbSveOutSink,
     IrAeOutSink,
@@ -127,6 +131,19 @@ enum class SapAttributeValues {
     LongInputAttribute = 2,
     ShortInputAttribute = 4,
 };
+
+enum class AdditonalFeaturesBitValues {
+    None = 0,
+    NntmEnableBit = 1,
+    GdcEnableBit = 2,
+    B2bEnableBit = 4,
+    RemosaicEnableBit = 8,
+    ImvEnableBit = 16,
+    CasBeforUpscaleBit = 32,
+    FullLtmEnableBit = 64,
+    AinrEnableBit = 128,
+};
+
 #pragma pack(push, 4)
 
 #ifndef STATIC_GRAPH_USE_IA_LEGACY_TYPES
@@ -212,7 +229,13 @@ struct StaticGraphLinkConfiguration {
     uint32_t bufferSize = 0;
     uint8_t streamingMode = 0;
 };
-
+struct StaticGraphSwProcessingLinkDefinition {
+    uint8_t src = 0;
+    uint8_t dest = 0;
+    uint8_t srcTerminalId = 0;
+    uint8_t destTerminalId = 0;
+    uint8_t type = 0;
+};
 struct VirtualSinkMapping {
     uint8_t preview = 0;
     uint8_t video = 0;
@@ -331,11 +354,11 @@ enum class GraphElementType : uint8_t {
     AwbSatOut,
     ImageMp,
     ImageDp,
-    GmvMatchOut,
     ProcessedMain,
+    ProcessedSecondary,
+    GmvMatchOut,
     CvOutput,
     SegnetSecondary,
-    ProcessedSecondary,
     PdafOut,
     AwbSveOut,
     IrAeOut,
@@ -348,85 +371,175 @@ enum class GraphElementType : uint8_t {
     RawIsysDolLong,
     RawIsysPdaf,
     // Outer Nodes
+
     Isys,
+
     LbffBayerNoGmvNoTnrNoSap,
-    LbffBayerWithGmvNoTnrNoSap,
+
+    SwB2b,
+
+    SwRemosaic,
+
+    SwAinr,
+
     SwGdc,
-    LbffBayerNoGmvWithTnrNoSap,
-    LbffBayerWithGmvWithTnrNoSap,
-    IsysWithCv,
-    SwSegnet,
-    LbffBayerWithGmvWithTnrWithSap,
-    SwScaler,
+
     SwNntm,
-    LbffBayerNoGmvWithTnrWithSap,
-    IsysPdaf2WithCv,
-    LbffBayerPdaf2NoGmvWithTnrWithSap,
-    LbffBayerPdaf2WithTnrWithSap,
-    LbffBayerPdaf3NoGmvWithTnrWithSap,
-    LbffBayerPdaf3asPdaf2NoGmvWithTnrWithSap,
-    IsysPdaf2,
-    LbffBayerPdaf2NoGmvNoTnrNoSap,
-    LbffBayerPdaf2WithGmvNoTnrNoSap,
-    LbffBayerPdaf2NoGmvWithTnrNoSap,
-    LbffBayerPdaf2WithGmvWithTnrNoSap,
-    LbffBayerPdaf2WithGmvWithTnrWithSap,
-    LbffBayerPdaf3NoGmvNoTnrNoSap,
-    LbffBayerPdaf3WithGmvNoTnrNoSap,
-    LbffBayerPdaf3NoGmvWithTnrNoSap,
-    LbffBayerPdaf3WithGmvWithTnrNoSap,
-    LbffBayerPdaf3WithGmvWithTnrWithSap,
-    IsysDol,
-    LbffDol2InputsNoGmvNoTnrNoSap,
-    LbffDol2InputsWithGmvNoTnrNoSap,
-    LbffDol2InputsNoGmvWithTnrNoSap,
-    LbffDol2InputsWithGmvWithTnrNoSap,
-    LbffDolSmooth,
-    LbffDol3InputsNoGmvNoTnrNoSap,
-    LbffDol3InputsWithGmvNoTnrNoSap,
-    LbffDol3InputsNoGmvWithTnrNoSap,
-    LbffDol3InputsWithGmvWithTnrNoSap,
-    LbffRgbIrNoGmvNoTnrNoSap,
-    LbffRgbIrIrNoGmvNoTnrNoSap,
-    LbffRgbIrWithGmvNoTnrNoSap,
-    LbffRgbIrNoGmvWithTnrNoSap,
-    LbffRgbIrIrNoGmvWithTnrNoSap,
-    LbffRgbIrWithGmvWithTnrNoSap,
-    LbffIrNoGmvNoTnrNoSap,
-    LbffIrWithGmvNoTnrNoSap,
-    LbffIrNoGmvWithTnrNoSap,
-    LbffIrWithGmvWithTnrNoSap,
-    LbffBayerPdaf3asPdaf2NoGmvNoTnrNoSap,
-    LbffBayerPdaf3asPdaf2WithGmvNoTnrNoSap,
-    LbffBayerPdaf3asPdaf2NoGmvWithTnrNoSap,
-    LbffBayerPdaf3asPdaf2WithGmvWithTnrNoSap,
-    LbffBayerPdaf3asPdaf2WithGmvWithTnrWithSap,
+
+    SwImv,
+
+    SwScaler,
+
+    LbffBayerWithGmvNoTnrNoSap,
+
+    LbffBayerNoGmvWithTnrNoSap,
+
+    LbffBayerWithGmvWithTnrNoSap,
+
+    IsysWithCv,
+
+    SwSegnet,
+
     LbffBayerNoGmvNoTnrWithSap,
+
     LbffBayerWithGmvNoTnrWithSap,
-    LbffBayerNoGmvWithTnrWithOpacity,
+
+    LbffBayerNoGmvWithTnrWithSap,
+
+    LbffBayerWithGmvWithTnrWithSap,
+
+    IsysPdaf2,
+
+    LbffBayerPdaf2NoGmvNoTnrNoSap,
+
+    LbffBayerPdaf2WithGmvNoTnrNoSap,
+
+    LbffBayerPdaf2NoGmvWithTnrNoSap,
+
+    LbffBayerPdaf2WithGmvWithTnrNoSap,
+
+    IsysPdaf2WithCv,
+
     LbffBayerPdaf2NoGmvNoTnrWithSap,
+
     LbffBayerPdaf2WithGmvNoTnrWithSap,
+
+    LbffBayerPdaf2NoGmvWithTnrWithSap,
+
+    LbffBayerPdaf2WithGmvWithTnrWithSap,
+
+    LbffBayerPdaf3NoGmvNoTnrNoSap,
+
+    LbffBayerPdaf3WithGmvNoTnrNoSap,
+
+    LbffBayerPdaf3NoGmvWithTnrNoSap,
+
+    LbffBayerPdaf3WithGmvWithTnrNoSap,
+
     LbffBayerPdaf3NoGmvNoTnrWithSap,
+
     LbffBayerPdaf3WithGmvNoTnrWithSap,
+
+    LbffBayerPdaf3NoGmvWithTnrWithSap,
+
+    LbffBayerPdaf3WithGmvWithTnrWithSap,
+
+    IsysDol,
+
+    LbffDol2InputsNoGmvNoTnrNoSap,
+
+    LbffDol2InputsWithGmvNoTnrNoSap,
+
+    LbffDol2InputsNoGmvWithTnrNoSap,
+
+    LbffDol2InputsWithGmvWithTnrNoSap,
+
     IsysDolWithCv,
+
     LbffDol2InputsNoGmvNoTnrWithSap,
+
     LbffDol2InputsWithGmvNoTnrWithSap,
+
     LbffDol2InputsNoGmvWithTnrWithSap,
+
     LbffDol2InputsWithGmvWithTnrWithSap,
-    LbffDol3InputsNoGmvNoTnrWithSap,
-    LbffDol3InputsWithGmvNoTnrWithSap,
-    LbffDol3InputsNoGmvWithTnrWithSap,
-    LbffDol3InputsWithGmvWithTnrWithSap,
-    LbffRgbIrNoGmvNoTnrWithSap,
-    LbffRgbIrWithGmvNoTnrWithSap,
-    LbffRgbIrNoGmvWithTnrWithSap,
-    LbffRgbIrWithGmvWithTnrWithSap,
-    LbffIrNoGmvNoTnrWithSap,
-    LbffIrWithGmvNoTnrWithSap,
-    LbffIrNoGmvWithTnrWithSap,
-    LbffIrWithGmvWithTnrWithSap,
+
+    LbffBayerPdaf3asPdaf2NoGmvNoTnrNoSap,
+
+    LbffBayerPdaf3asPdaf2WithGmvNoTnrNoSap,
+
+    LbffBayerPdaf3asPdaf2NoGmvWithTnrNoSap,
+
+    LbffBayerPdaf3asPdaf2WithGmvWithTnrNoSap,
+
     LbffBayerPdaf3asPdaf2NoGmvNoTnrWithSap,
+
     LbffBayerPdaf3asPdaf2WithGmvNoTnrWithSap,
+
+    LbffBayerPdaf3asPdaf2NoGmvWithTnrWithSap,
+
+    LbffBayerPdaf3asPdaf2WithGmvWithTnrWithSap,
+
+    LbffDolSmooth,
+
+    LbffDol3InputsNoGmvNoTnrNoSap,
+
+    LbffDol3InputsWithGmvNoTnrNoSap,
+
+    LbffDol3InputsNoGmvWithTnrNoSap,
+
+    LbffDol3InputsWithGmvWithTnrNoSap,
+
+    LbffDol3InputsNoGmvNoTnrWithSap,
+
+    LbffDol3InputsWithGmvNoTnrWithSap,
+
+    LbffDol3InputsNoGmvWithTnrWithSap,
+
+    LbffDol3InputsWithGmvWithTnrWithSap,
+
+    LbffBayerPdaf2WithTnrWithSap,
+
+    LbffRgbIrNoGmvNoTnrNoSap,
+
+    LbffRgbIrIrNoGmvNoTnrNoSap,
+
+    LbffRgbIrWithGmvNoTnrNoSap,
+
+    LbffRgbIrNoGmvWithTnrNoSap,
+
+    LbffRgbIrIrNoGmvWithTnrNoSap,
+
+    LbffRgbIrWithGmvWithTnrNoSap,
+
+    LbffIrNoGmvNoTnrNoSap,
+
+    LbffIrWithGmvNoTnrNoSap,
+
+    LbffIrNoGmvWithTnrNoSap,
+
+    LbffIrWithGmvWithTnrNoSap,
+
+    LbffBayerNoGmvWithTnrWithOpacity,
+
+    LbffDol2InputsNoGmvWithTnrWithOpacity,
+
+    LbffRgbIrNoGmvNoTnrWithSap,
+
+    LbffRgbIrWithGmvNoTnrWithSap,
+
+    LbffRgbIrNoGmvWithTnrWithSap,
+
+    LbffRgbIrWithGmvWithTnrWithSap,
+
+    LbffIrNoGmvNoTnrWithSap,
+
+    LbffIrWithGmvNoTnrWithSap,
+
+    LbffIrNoGmvWithTnrWithSap,
+
+    LbffIrWithGmvWithTnrWithSap,
+
     WithCv,
 };
 

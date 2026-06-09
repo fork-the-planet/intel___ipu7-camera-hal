@@ -31,6 +31,9 @@
 #include "Ipu7xStaticGraphAutogen.h"
 #include "Ipu7xStaticGraphTypesAutogen.h"
 #include "Ipu7xGraphResolutionConfiguratorAutogen.h"
+#elif defined(GRC_IPU7)
+#include "Ipu7StaticGraphAutogen.h"
+#include "Ipu7StaticGraphTypesAutogen.h"
 #elif defined(GRC_IPU75XA)
 #include "Ipu75xaStaticGraphAutogen.h"
 #include "Ipu75xaStaticGraphTypesAutogen.h"
@@ -39,6 +42,10 @@
 #include "Ipu8StaticGraphAutogen.h"
 #include "Ipu8StaticGraphTypesAutogen.h"
 #include "Ipu8GraphResolutionConfiguratorAutogen.h"
+#elif defined(GRC_IPU9P)
+#include "Ipu9pStaticGraphAutogen.h"
+#include "Ipu9pStaticGraphTypesAutogen.h"
+#include "Ipu9pGraphResolutionConfiguratorAutogen.h"
 #else
 #include "StaticGraphAutogen.h"
 #include "StaticGraphTypesAutogen.h"
